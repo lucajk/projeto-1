@@ -225,6 +225,12 @@ void consultar_extrato() {
   }
 }
 
+void consultar_saldo() {
+  printf("\nSeu saldo é de R$: %.2f\n", saldo_reais);
+  printf("Bitcoin: %.2f\n", saldo_bitcoin);
+  printf("Ethereum: %.2f\n", saldo_ethereum);
+  printf("Ripple: %.2f\n", saldo_ripple);
+}
 
 
 
