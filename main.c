@@ -13,6 +13,27 @@ char extrato[1000] = "";
 char Nome[] = "Luca Juraski";
 char login[12], senha[12];
 
+// Funções auxiliares
+void clear_screen() { system("clear || cls"); }
+
+void ocultar_senha(char *senha) {
+  printf("Senha: ");
+  int i = 0;
+  char ch;
+  while ((ch = getchar()) != '\n' && i < 6) {
+    if (ch == 127 || ch == '\b') { // Backspace
+      if (i > 0) {
+        i--;
+        printf("\b \b");
+      }
+    } else {
+      senha[i++] = ch;
+      printf("*");
+    }
+  }
+  senha[i] = '\0';
+  printf("\n");
+}
 
 
 
