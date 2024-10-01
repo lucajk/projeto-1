@@ -47,6 +47,66 @@ int exibir_menu() {
   return opcao;
 }
 
+// Função para validar CPF (11 dígitos e apenas números)
+int validar_cpf(char *cpf) {
+  if (strlen(cpf) != 11) {
+    printf("CPF deve ter 11 dígitos. Tente novamente!\n");
+    return 0;
+  }
+  for (int i = 0; i < 11; i++) {
+    if (!isdigit(cpf[i])) {
+      printf("CPF deve conter apenas números. Tente novamente!\n");
+      return 0;
+    }
+  }
+  return 1;
+}
+
+void fazer_login(char *login, char *senha) {
+  int cpf_valido = 0;
+
+  // Validar CPF
+  while (!cpf_valido) {
+    printf("CPF: ");
+    scanf("%s", login);
+    cpf_valido = validar_cpf(login);
+  }
+
+  // Limpar o buffer antes de pedir a senha
+  while (getchar() != '\n')
+    ; // Limpa o buffer do stdin
+
+  // Validar senha
+  while (1) {
+    int senha_valida = 1;
+
+    printf("Senha: ");
+    scanf("%s",
+          senha); // Removido ocultar_senha para facilitar a leitura do exemplo
+
+    if (strlen(senha) < 6) {
+      printf("Senha deve conter no mínimo 6 dígitos. Tente novamente!\n");
+      senha_valida = 0;
+    } else {
+      // Verificar se todos os caracteres são numéricos
+      for (int i = 0; i < strlen(senha); i++) {
+        if (!isdigit(senha[i])) {
+          senha_valida = 0;
+          printf("A senha deve conter apenas caracteres numéricos. Tente "
+                 "novamente!\n");
+          break;
+        }
+      }
+    }
+
+    if (senha_valida) {
+      break;
+    }
+  }
+}
+
+
+
 
 
 
