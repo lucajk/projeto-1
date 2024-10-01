@@ -568,34 +568,75 @@ void vender_criptomoedas() {
 }
 
 
+void menu() {
+  int opcao;
+  while (1) {
+    printf("\n[1] Consultar saldo\n");
+    printf("[2] Consultar extrato\n");
+    printf("[3] Depositar\n");
+    printf("[4] Sacar\n");
+    printf("[5] Atualizar cotação\n");
+    printf("[6] Comprar Criptomoedas\n");
+    printf("[7] Vender Criptomoedas\n");
+    printf("[8] Sair\n");
+    printf("Digite a opção desejada:");
+    scanf("%d", &opcao);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int main(void) {
-  return 0;
+    switch (opcao) {
+    case 1:
+      consultar_saldo();
+      break;
+    case 2:
+      consultar_extrato();
+      break;
+    case 3:
+      depositar();
+      break;
+    case 4:
+      sacar();
+      break;
+    case 5:
+      atualizar_cotacao();
+      break;
+    case 6:
+      comprar_criptomoedas();
+      break;
+    case 7:
+      vender_criptomoedas();
+      break;
+    case 8:
+      printf("Goodbye!\n");
+      exit(0);
+    default:
+      printf("Opção inválida!\n");
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
