@@ -29,3 +29,9 @@ Para compilar o projeto, siga as etapas abaixo:
 
    ```bash
    gcc -o sistema_criptomoedas sistema_criptomoedas.c
+## Como executar
+1. Utilize o seguinte comando no terminal: ./sistema_criptomoedas
+
+## Participantes
+Gabriel Cantorani - RA: 52124006-9
+Luca Juraski -    RA: 52124012-7
