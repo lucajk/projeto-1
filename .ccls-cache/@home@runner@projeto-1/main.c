@@ -107,9 +107,111 @@ void fazer_login(char *login, char *senha) {
 }
 
 
+#define MAX_USUARIOS 10 // Corrigido para usar #define
 
+// Função para buscar usuário no arquivo
+int buscar_usuario(char *login, char *senha) {
+  FILE *arquivo;
+  char cpf[12], pass[12];
+  int encontrado = 0;
 
+  arquivo = fopen("usuarios.txt", "r");
+  if (arquivo == NULL) {
+    return 0;
+  }
 
+  while (fscanf(arquivo, "%s %s", cpf, pass) != EOF) {
+    if (strcmp(login, cpf) == 0 && strcmp(senha, pass) == 0) {
+      encontrado = 1;
+      break;
+    }
+  }
+
+  fclose(arquivo);
+  return encontrado;
+}
+
+// Função para contar o número de usuários cadastrados no arquivo
+int contar_usuarios() {
+  FILE *arquivo;
+  char cpf[12], pass[12];
+  int contador = 0;
+
+  arquivo = fopen("usuarios.txt", "r");
+  if (arquivo == NULL) {
+    return 0;
+  }
+
+  // Conta quantas linhas existem no arquivo, cada linha corresponde a um
+  // usuário
+  while (fscanf(arquivo, "%s %s", cpf, pass) != EOF) {
+    contador++;
+  }
+
+  fclose(arquivo);
+  return contador;
+}
+
+// Função para cadastrar um novo usuário
+void cadastrar_usuario() {
+  char login[12];
+  char senha[12];
+  int cpf_valido = 0;
+
+  // Verifica se já existem 10 usuários cadastrados
+  int total_usuarios = contar_usuarios();
+  if (total_usuarios >= MAX_USUARIOS) {
+    printf("Não é possível cadastrar mais usuários. Limite de %d atingido!\n",
+           MAX_USUARIOS);
+    return;
+  }
+
+  // Solicita e valida o CPF
+  while (!cpf_valido) {
+    printf("CPF: ");
+    scanf("%s", login);
+    cpf_valido = validar_cpf(login);
+  }
+
+  // Solicita e valida a senha
+  while (1) {
+    int senha_valida = 1;
+
+    printf("Senha (mínimo 6 caracteres): ");
+    scanf("%s", senha);
+
+    if (strlen(senha) < 6) {
+      printf("Senha deve conter no mínimo 6 dígitos. Tente novamente!\n");
+      senha_valida = 0;
+    } else {
+      // Verificar se todos os caracteres são numéricos
+      for (int i = 0; i < strlen(senha); i++) {
+        if (!isdigit(senha[i])) {
+          senha_valida = 0;
+          printf("A senha deve conter apenas caracteres numéricos. Tente "
+                 "novamente!\n");
+          break;
+        }
+      }
+    }
+
+    if (senha_valida) {
+      break;
+    }
+  }
+
+  // Adiciona o novo usuário ao arquivo
+  FILE *arquivo = fopen("usuarios.txt", "a");
+  if (arquivo == NULL) {
+    printf("Erro ao abrir o arquivo!\n");
+    return;
+  }
+
+  fprintf(arquivo, "%s %s\n", login, senha);
+  fclose(arquivo);
+
+  printf("Usuário cadastrado com sucesso!\n");
+}
 
 
 
