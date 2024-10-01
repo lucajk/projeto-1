@@ -90,6 +90,8 @@ void fazer_login(char *login, char *senha) {
   }
 }
 
+#define MAX_USUARIOS 10  // Corrigido para usar #define
+
 
 
 
