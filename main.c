@@ -296,6 +296,22 @@ void sacar() {
     }
 }
 
+void atualizar_cotacao() {
+  // Gerar números aleatórios para as variações de -0.05 a 0.05
+  variacao_bitcoin = ((double)rand() / RAND_MAX) * 0.10 - 0.05;
+  variacao_ethereum = ((double)rand() / RAND_MAX) * 0.10 - 0.05;
+  variacao_ripple = ((double)rand() / RAND_MAX) * 0.10 - 0.05;
+
+  // Atualizar a cotação das criptomoedas com base nas variações
+  BTC = BTC * (1 + variacao_bitcoin);
+  ETH = ETH * (1 + variacao_ethereum);
+  XRP = XRP * (1 + variacao_ripple);
+
+  // Exibir as novas cotações no console
+  printf("\nA cotação do Bitcoin foi atualizada para %.2f\n", BTC);
+  printf("A cotação do Ethereum foi atualizada para %.2f\n", ETH);
+  printf("A cotação do Ripple foi atualizada para %.2f\n\n", XRP);
+}
 
 
 
