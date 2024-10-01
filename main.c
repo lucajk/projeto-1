@@ -253,6 +253,48 @@ void depositar() {
   }
 }
 
+void sacar() {
+  double valor_reais;
+  char data_hora[100];
+  char senha_digitada[12];
+
+  // Solicitar senha
+  printf("Digite sua senha para continuar: ");
+  scanf("%s", senha_digitada);
+
+  // Verificar se a senha está correta
+  if (strcmp(senha_digitada, senha) != 0) {
+    printf("Senha incorreta! Saque não autorizado.\n");
+    return; // Cancelar a operação de saque
+  }
+
+  // Continuar com o saque após a verificação da senha
+  printf("Informe o valor do saque em R$: ");
+  scanf("%lf", &valor_reais);
+
+  if (valor_reais > saldo_reais) {
+    printf("Saldo insuficiente! Saldo atual: R$ %.2f\n", saldo_reais);
+  } else {
+    saldo_reais -= valor_reais;
+
+    // Obter data e hora atual
+    obter_data_hora(data_hora);
+
+    // Atualizar extrato com data e hora
+    sprintf(extrato + strlen(extrato), "%s - Saque: R$ %.2f\n", data_hora,
+            valor_reais);
+
+    // Salvar a transação no arquivo de extrato
+    FILE *arquivo_extrato = fopen("extrato.txt", "a");
+    if (arquivo_extrato != NULL) {
+      fprintf(arquivo_extrato, "%s - Saque: R$ %.2f\n", data_hora, valor_reais);
+      fclose(arquivo_extrato);
+    }
+
+    printf("Saque de R$ %.2f realizado com sucesso!\n", valor_reais);
+    printf("Seu saldo agora é R$: %.2f\n", saldo_reais);
+  }
+}
 
 
 
