@@ -228,6 +228,69 @@ void consultar_saldo() {
   printf("Ripple: %.2f\n", saldo_ripple);
 }
 
+void consultar_extrato() {
+  FILE *arquivo_extrato = fopen("extrato.txt", "r");
+  char linha[256];
+  int contador = 0;
+  char ultimas_transacoes[100][256]; // Para armazenar as últimas 100 transações
+
+  if (arquivo_extrato == NULL) {
+    printf("Não foram realizadas movimentações.\n");
+    return;
+  }
+
+  // Ler todas as transações e salvar as últimas 100
+  while (fgets(linha, sizeof(linha), arquivo_extrato)) {
+    if (contador < 100) {
+      strcpy(ultimas_transacoes[contador], linha);
+    } else {
+      for (int i = 1; i < 100; i++) {
+        strcpy(ultimas_transacoes[i - 1],
+               ultimas_transacoes[i]); // Deslocar para remover a mais antiga
+      }
+      strcpy(ultimas_transacoes[99], linha); // Adicionar a nova
+    }
+    contador++;
+  }
+
+  fclose(arquivo_extrato);
+
+  // Exibir as últimas 100 transações no console
+  printf("\nÚltimas %d transações:\n", contador > 100 ? 100 : contador);
+  for (int i = 0; i < (contador > 100 ? 100 : contador); i++) {
+    printf("%s", ultimas_transacoes[i]);
+  }
+}
+
+void depositar() {
+  double valor_reais;
+  char data_hora[100];
+
+  printf("Informe o valor do depósito em R$: ");
+  scanf("%lf", &valor_reais);
+
+  if (valor_reais > 0) {
+    saldo_reais += valor_reais;
+
+    // Obter data e hora atual
+    obter_data_hora(data_hora);
+
+    // Atualizar extrato com data e hora
+    sprintf(extrato + strlen(extrato), "%s - Depósito: R$ %.2f\n", data_hora,
+            valor_reais);
+    FILE *arquivo_extrato = fopen("extrato.txt", "a");
+    if (arquivo_extrato != NULL) {
+      fprintf(arquivo_extrato, "%s - Depósito: R$ %.2f\n", data_hora,
+              valor_reais);
+      fclose(arquivo_extrato);
+    }
+
+    printf("Depósito de R$ %.2f realizado com sucesso!\n", valor_reais);
+    printf("Seu saldo agora é R$: %.2f\n", saldo_reais);
+  } else {
+    printf("Valor inválido!\n");
+  }
+}
 
 void consultar_extrato() {
   FILE *arquivo_extrato = fopen("extrato.txt", "r");
