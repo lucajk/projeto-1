@@ -35,6 +35,17 @@ void ocultar_senha(char *senha) {
   printf("\n");
 }
 
+int exibir_menu() {
+  int opcao;
+  printf("\nBem-Vindo ao projeto!\n\n");
+  printf("Escolha uma opção:\n");
+  printf("[1] Cadastrar novo usuário\n");
+  printf("[2] Fazer Login\n");
+  printf("[3] Sair\n");
+  printf("Digite sua opção: ");
+  scanf("%d", &opcao);
+  return opcao;
+}
 
 
 
