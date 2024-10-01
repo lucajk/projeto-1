@@ -313,6 +313,129 @@ void atualizar_cotacao() {
     printf("A cotação do Ripple foi atualizada para %.2f\n\n", XRP);
 }
 
+void comprar_criptomoedas() {
+    int quantidade;
+    char criptomoeda[4];
+    char dados[100];
+    int confirmacao;
+
+    // Mostra os valores das criptomoedas
+    printf("Valor Bitcoin: %.2f\nValor Ethereum: %.2f\nValor Ripple: %.2f\n", BTC, ETH, XRP);
+    sleep(1);
+
+    // Entrada da criptomoeda
+    printf("Digite a criptomoeda (BTC, ETH, XRP): ");
+    scanf("%s", criptomoeda);
+
+    // Verifica se a criptomoeda digitada é válida
+    if (strcmp(criptomoeda, "BTC") != 0 && strcmp(criptomoeda, "ETH") != 0 && strcmp(criptomoeda, "XRP") != 0) {
+        printf("Criptomoeda inválida! Digite BTC, ETH ou XRP.\n");
+        return; // Cancela a operação se a criptomoeda for inválida
+    }
+
+    // Entrada de quantidade de criptomoedas
+    char quantidade_str[10];
+    printf("Digite a quantidade de criptomoedas: ");
+    scanf("%s", quantidade_str);
+
+    // Verifica se a quantidade é um número inteiro válido
+    int i;
+    for (i = 0; i < strlen(quantidade_str); i++) {
+        if (!isdigit(quantidade_str[i])) {
+            printf("Valor inválido! A quantidade deve ser um número inteiro.\n");
+            return; // Cancela a operação se a quantidade não for um número válido
+        }
+    }
+
+    quantidade = atoi(quantidade_str); // Converte a string para número inteiro
+
+    double taxa = 0.0;
+    double valor_total = 0.0;
+
+    // Calcula a taxa e o valor total de acordo com a criptomoeda escolhida
+    if (strcmp(criptomoeda, "BTC") == 0) {
+        taxa = 0.02 * BTC;
+        valor_total = quantidade * BTC + taxa;
+    } else if (strcmp(criptomoeda, "ETH") == 0) {
+        taxa = 0.01 * ETH;
+        valor_total = quantidade * ETH + taxa;
+    } else if (strcmp(criptomoeda, "XRP") == 0) {
+        taxa = 0.01 * XRP;
+        valor_total = quantidade * XRP + taxa;
+    }
+
+    // Exibe o valor da taxa e o valor total antes da confirmação
+    printf("Taxa para esta transação: %.2f\nValor total incluindo taxa: %.2f\n", taxa, valor_total);
+
+    // Confirmação da compra
+    printf("Você deseja confirmar a compra de %d %s? Digite '1' para SIM ou qualquer outro valor para CANCELAR: ", quantidade, criptomoeda);
+    scanf("%d", &confirmacao);
+
+    if (confirmacao != 1) {
+        printf("Operação cancelada.\n");
+        return; // Cancela a operação
+    }
+
+    // Comprar Bitcoin
+    if (strcmp(criptomoeda, "BTC") == 0 && quantidade > 0) {
+        if (valor_total <= saldo_reais) {
+            saldo_reais -= valor_total;
+            saldo_bitcoin += quantidade;
+
+            obter_data_hora(dados);
+            FILE *arquivo_extrato = fopen("extrato.txt", "a");
+            if (arquivo_extrato != NULL) {
+                fprintf(arquivo_extrato, "%s - Compra de %d BTC\n", dados, quantidade);
+                fclose(arquivo_extrato);
+            }
+
+            printf("Compra de %d BTC realizada com sucesso!\n", quantidade);
+            printf("Seu saldo agora é R$: %.2f\nSeu saldo em Bitcoin é: %.2f\n", saldo_reais, saldo_bitcoin);
+        } else {
+            printf("Saldo insuficiente!\n");
+        }
+    }
+
+    // Comprar Ethereum
+    else if (strcmp(criptomoeda, "ETH") == 0 && quantidade > 0) {
+        if (valor_total <= saldo_reais) {
+            saldo_reais -= valor_total;
+            saldo_ethereum += quantidade;
+
+            obter_data_hora(dados);
+            FILE *arquivo_extrato = fopen("extrato.txt", "a");
+            if (arquivo_extrato != NULL) {
+                fprintf(arquivo_extrato, "%s - Compra de %d ETH\n", dados, quantidade);
+                fclose(arquivo_extrato);
+            }
+
+            printf("Compra de %d ETH realizada com sucesso!\n", quantidade);
+            printf("Seu saldo agora é R$: %.2f\nSeu saldo em Ethereum é: %.2f\n", saldo_reais, saldo_ethereum);
+        } else {
+            printf("Saldo insuficiente!\n");
+        }
+    }
+
+    // Comprar Ripple
+    else if (strcmp(criptomoeda, "XRP") == 0 && quantidade > 0) {
+        if (valor_total <= saldo_reais) {
+            saldo_reais -= valor_total;
+            saldo_ripple += quantidade;
+
+            obter_data_hora(dados);
+            FILE *arquivo_extrato = fopen("extrato.txt", "a");
+            if (arquivo_extrato != NULL) {
+                fprintf(arquivo_extrato, "%s - Compra de %d XRP\n", dados, quantidade);
+                fclose(arquivo_extrato);
+            }
+
+            printf("Compra de %d XRP realizada com sucesso!\n", quantidade);
+            printf("Seu saldo agora é R$: %.2f\nSeu saldo em Ripple é: %.2f\n", saldo_reais, saldo_ripple);
+        } else {
+            printf("Saldo insuficiente!\n");
+        }
+    }
+}
 
 
 
