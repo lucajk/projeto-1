@@ -669,37 +669,76 @@ void menu() {
   }
 }
 
+int main() {
+  int opcao;
 
+  while (1) {
+    printf("\n[1] Cadastrar novo usuário\n[2] Fazer Login\n[3] Sair\n");
+    printf("Digite sua opção: ");
+    scanf("%d", &opcao);
 
+    if (opcao == 1) {
+      // Cadastro de novo usuário
+      fazer_login(login, senha);
+      if (buscar_usuario(login, senha)) {
+        printf("Usuário já existente!\n");
+      } else {
+        FILE *arquivo = fopen("usuarios.txt", "a");
+        if (arquivo != NULL) {
+          fprintf(arquivo, "%s %s\n", login, senha);
+          fclose(arquivo);
+          printf("Cadastro aprovado!\n");
+        } else {
+          printf("Erro ao abrir o arquivo de usuários!\n");
+        }
+      }
+    } else if (opcao == 2) {
+      // Fazer login
+      fazer_login(login, senha);
+      if (buscar_usuario(login, senha)) {
+        printf("Login realizado com sucesso!\n");
+        menu();
+      } else {
+        printf("Usuário ou senha incorretos. Tente novamente!\n");
+      }
+    } else if (opcao == 3) {
+      printf("Goodbye!\n");
+      break;
+    } else {
+      printf("Opção inválida!\n");
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int main(void) {
   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
