@@ -225,6 +225,34 @@ void consultar_extrato() {
   }
 }
 
+void depositar() {
+  double valor_reais;
+  char data_hora[100];
+
+  printf("Informe o valor do depósito em R$: ");
+  scanf("%lf", &valor_reais);
+
+  if (valor_reais > 0) {
+      saldo_reais += valor_reais;
+
+      // Obter data e hora atual
+      obter_data_hora(data_hora);
+
+      // Atualizar extrato com data e hora
+      sprintf(extrato + strlen(extrato), "%s - Depósito: R$ %.2f\n", data_hora, valor_reais);
+      FILE *arquivo_extrato = fopen("extrato.txt", "a");
+      if (arquivo_extrato != NULL) {
+          fprintf(arquivo_extrato, "%s - Depósito: R$ %.2f\n", data_hora, valor_reais);
+          fclose(arquivo_extrato);
+      }
+
+      printf("Depósito de R$ %.2f realizado com sucesso!\n", valor_reais);
+      printf("Seu saldo agora é R$: %.2f\n", saldo_reais);
+  } else {
+      printf("Valor inválido!\n");
+  }
+}
+
 
 
 
