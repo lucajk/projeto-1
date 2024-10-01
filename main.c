@@ -63,7 +63,6 @@ int validar_cpf(char *cpf) {
   return 1;
 }
 
-// Função para fazer login (inclui validação do CPF e senha)
 void fazer_login(char *login, char *senha) {
   int cpf_valido = 0;
 
@@ -80,11 +79,26 @@ void fazer_login(char *login, char *senha) {
 
   // Validar senha
   while (1) {
+    int senha_valida = 1;
+
     printf("Senha: ");
     scanf("%s", senha); // Removido ocultar_senha para facilitar a leitura do exemplo
+
     if (strlen(senha) < 6) {
       printf("Senha deve conter no mínimo 6 dígitos. Tente novamente!\n");
+      senha_valida = 0;
     } else {
+      // Verificar se todos os caracteres são numéricos
+      for (int i = 0; i < strlen(senha); i++) {
+        if (!isdigit(senha[i])) {
+          senha_valida = 0;
+          printf("A senha deve conter apenas caracteres numéricos. Tente novamente!\n");
+          break;
+        }
+      }
+    }
+
+    if (senha_valida) {
       break;
     }
   }
@@ -156,11 +170,26 @@ void cadastrar_usuario() {
 
   // Solicita e valida a senha
   while (1) {
+    int senha_valida = 1;
+
     printf("Senha (mínimo 6 caracteres): ");
     scanf("%s", senha);
+
     if (strlen(senha) < 6) {
       printf("Senha deve conter no mínimo 6 dígitos. Tente novamente!\n");
+      senha_valida = 0;
     } else {
+      // Verificar se todos os caracteres são numéricos
+      for (int i = 0; i < strlen(senha); i++) {
+        if (!isdigit(senha[i])) {
+          senha_valida = 0;
+          printf("A senha deve conter apenas caracteres numéricos. Tente novamente!\n");
+          break;
+        }
+      }
+    }
+
+    if (senha_valida) {
       break;
     }
   }
