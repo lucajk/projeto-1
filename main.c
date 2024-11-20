@@ -185,7 +185,7 @@ int main() {
 
               criptos[(*numCriptos)++] = nova;
               salvarCriptomoedas(criptos, *numCriptos);
-              printf("Criptomoeda cadastrada com sucesso.\n");
+              printf("Criptomoeda cadastrada com sucesso!.\n");
           }
 
           void excluirCriptomoeda(Criptomoeda criptos[], int *numCriptos) {
