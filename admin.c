@@ -117,3 +117,160 @@
               }
               printf("Investidor não encontrado.\n");
           }
+void cadastrarCriptomoeda(Criptomoeda criptos[], int *numCriptos) {
+              if (*numCriptos >= MAX_CRIPTOS) {
+                  printf("Limite de criptomoedas atingido.\n");
+                  return;
+              }
+              Criptomoeda nova;
+              printf("Nome: ");
+              limparBuffer();
+              fgets(nova.nome, 50, stdin);
+              strtok(nova.nome, "\n");
+              printf("Cotação inicial: ");
+              scanf("%f", &nova.cotacao);
+              printf("Taxa de compra (%%): ");
+              scanf("%f", &nova.taxaCompra);
+              printf("Taxa de venda (%%): ");
+              scanf("%f", &nova.taxaVenda);
+              limparBuffer();
+
+              criptos[(*numCriptos)++] = nova;
+              salvarCriptomoedas(criptos, *numCriptos);
+              printf("Criptomoeda cadastrada com sucesso.\n");
+          }
+
+          void excluirCriptomoeda(Criptomoeda criptos[], int *numCriptos) {
+              char nome[50];
+              printf("Digite o nome da criptomoeda a ser excluída: ");
+              limparBuffer();
+              fgets(nome, 50, stdin);
+              strtok(nome, "\n");
+
+              for (int i = 0; i < *numCriptos; i++) {
+                  if (strcmp(criptos[i].nome, nome) == 0) {
+                      printf("Criptomoeda encontrada: %s\n", criptos[i].nome);
+                      printf("Confirmar exclusão? (s/n): ");
+                      char confirmacao;
+                      scanf(" %c", &confirmacao);
+                      limparBuffer();
+                      if (confirmacao == 's') {
+                          for (int j = i; j < *numCriptos - 1; j++) {
+                              criptos[j] = criptos[j + 1];
+                          }
+                          (*numCriptos)--;
+                          salvarCriptomoedas(criptos, *numCriptos);
+                          printf("Criptomoeda excluída com sucesso.\n");
+                      }
+                      return;
+                  }
+              }
+              printf("Criptomoeda não encontrada.\n");
+          }
+
+          void consultarSaldo(Investidor investidores[], int numInvestidores) {
+              char cpf[12];
+              printf("Digite o CPF do investidor: ");
+              fgets(cpf, 12, stdin);
+              strtok(cpf, "\n");
+
+              for (int i = 0; i < numInvestidores; i++) {
+                  if (strcmp(investidores[i].cpf, cpf) == 0) {
+                      printf("Saldo do investidor %s: R$%.2f\n", investidores[i].nome, investidores[i].saldo);
+                      return;
+                  }
+              }
+              printf("Investidor não encontrado.\n");
+          }
+
+          void consultarExtrato(Investidor investidores[], int numInvestidores) {
+              char cpf[12];
+              printf("Digite o CPF do investidor: ");
+              fgets(cpf, 12, stdin);
+              strtok(cpf, "\n");
+
+              for (int i = 0; i < numInvestidores; i++) {
+                  if (strcmp(investidores[i].cpf, cpf) == 0) {
+                      printf("Extrato do investidor %s:\n%s", investidores[i].nome, investidores[i].extrato);
+                      return;
+                  }
+              }
+              printf("Investidor não encontrado.\n");
+          }
+
+          void atualizarCotacao(Criptomoeda criptos[], int numCriptos) {
+              char nome[50];
+              printf("Digite o nome da criptomoeda: ");
+              limparBuffer();
+              fgets(nome, 50, stdin);
+              strtok(nome, "\n");
+
+              for (int i = 0; i < numCriptos; i++) {
+                  if (strcmp(criptos[i].nome, nome) == 0) {
+                      printf("Cotação atual da %s: R$%.2f\n", criptos[i].nome, criptos[i].cotacao);
+                      printf("Nova cotação: ");
+                      scanf("%f", &criptos[i].cotacao);
+                      salvarCriptomoedas(criptos, numCriptos);
+                      printf("Cotação da %s atualizada com sucesso.\n", criptos[i].nome);
+                      return;
+                  }
+              }
+              printf("Criptomoeda não encontrada.\n");
+          }
+
+          // Main
+          int main() {
+              Investidor investidores[MAX_INVESTIDORES];
+              Criptomoeda criptos[MAX_CRIPTOS];
+              int numInvestidores, numCriptos;
+
+              carregarInvestidores(investidores, &numInvestidores);
+              carregarCriptomoedas(criptos, &numCriptos);
+
+              int opcao;
+              do {
+                  printf("\n--- Menu Administrador ---\n");
+                  printf("1. Cadastrar novo investidor\n");
+                  printf("2. Excluir investidor\n");
+                  printf("3. Cadastrar criptomoeda\n");
+                  printf("4. Excluir criptomoeda\n");
+                  printf("5. Consultar saldo do investidor\n");
+                  printf("6. Consultar extrato do investidor\n");
+                  printf("7. Atualizar cotação de criptomoeda\n");
+                  printf("8. Sair\n");
+                  printf("Escolha uma opção: ");
+                  scanf("%d", &opcao);
+                  limparBuffer();
+                  
+                  switch (opcao) {
+                      case 1:
+                          cadastrarInvestidor(investidores, &numInvestidores);
+                          break;
+                      case 2:
+                          excluirInvestidor(investidores, &numInvestidores);
+                          break;
+                      case 3:
+                          cadastrarCriptomoeda(criptos, &numCriptos);
+                          break;
+                      case 4:
+                          excluirCriptomoeda(criptos, &numCriptos);
+                          break;
+                      case 5:
+                          consultarSaldo(investidores, numInvestidores);
+                          break;
+                      case 6:
+                          consultarExtrato(investidores, numInvestidores);
+                          break;
+                      case 7:
+                          atualizarCotacao(criptos, numCriptos);
+                          break;
+                      case 8:
+                          printf("Encerrando...\n");
+                          break;
+                      default:
+                          printf("Opção inválida.\n");
+                  }
+                  } while (opcao != 8);
+                  
+                  return 0;
+                  }
