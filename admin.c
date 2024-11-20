@@ -273,4 +273,4 @@ void cadastrarCriptomoeda(Criptomoeda criptos[], int *numCriptos) {
                   } while (opcao != 8);
                   
                   return 0;
-                  }
+                  } 
