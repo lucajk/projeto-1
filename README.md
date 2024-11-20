@@ -2,8 +2,9 @@
 
 ## Descrição do Projeto
 
-Este projeto é um sistema de gerenciamento de criptomoedas que permite aos usuários cadastrar-se, fazer login, depositar e sacar dinheiro, além de comprar e vender criptomoedas como Bitcoin (BTC), Ethereum (ETH) e Ripple (XRP). O sistema também oferece a funcionalidade de visualizar saldos e extratos de transações.
+Este é um sistema completo de gerenciamento de criptomoedas, desenvolvido para atender tanto administradores quanto investidores. Ele oferece funcionalidades robustas para administração de investidores e criptomoedas, além de permitir que usuários realizem transações financeiras de maneira prática e segura.
 
+O sistema foi projetado para simular operações reais de mercado, como compra e venda de criptomoedas, além de permitir o acompanhamento de saldos e extratos. As funcionalidades administrativas incluem a gestão de investidores, criptomoedas e atualizações de cotações. Com uma interface simples e eficiente, o programa é ideal para aprendizado e simulação do funcionamento de mercados financeiros digitais.
 ## Funcionalidades para usuários comuns:
 
 - Cadastrar novos usuários com CPF e senha.
